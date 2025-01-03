@@ -1,4 +1,4 @@
-.PHONY: help all test-init test
+.PHONY: help all test debug clean distclean
 
 # test
 CC=cc
@@ -14,10 +14,11 @@ TEST     := $(addprefix $(RUN)/,$(patsubst %.c,%,$(TEST_SRC)))
 
 all: test
 
-test: test-init $(TEST)
+test: $(TEST_RUN)/stamp $(TEST)
 
-test-init:
-	mkdir -p $(TEST_RUN)
+$(TEST_RUN)/stamp:
+	@mkdir -p $(TEST_RUN)
+	@touch $@
 
 $(TEST_RUN)/address-of-operator: $(TEST_DIR)/address-of-operator.c
 	$(CC) $(CFLAGS) -o $@ $<
